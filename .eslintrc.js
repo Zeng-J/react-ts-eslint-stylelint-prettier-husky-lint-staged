@@ -6,7 +6,9 @@ module.exports = {
     es6: true
   },
   extends: [ // 共享推荐的配置风格
-    'eslint:recommended',
+    'airbnb',
+    'airbnb-typescript',
+    'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
@@ -16,6 +18,10 @@ module.exports = {
     sourceType: "module", // 指定代码为 ECMAScript 模块
     ecmaFeatures: {
       jsx: true // 启用jsx
-    }
+    },
+    project: './tsconfig.json'
+  },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
   },
 }
