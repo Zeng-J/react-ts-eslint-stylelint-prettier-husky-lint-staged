@@ -5,9 +5,12 @@ module.exports = {
     node: true,
     es6: true
   },
-  extends: [ // 继承eslint推荐的检查规则
-    'eslint:recommended'
+  extends: [ // 共享推荐的配置风格
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   parserOptions: {
     ecmaVersion: "latest", // 指定ECMAScript 语法为最新
     sourceType: "module", // 指定代码为 ECMAScript 模块
