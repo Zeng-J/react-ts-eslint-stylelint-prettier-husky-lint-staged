@@ -290,3 +290,35 @@ module.exports = {
 ```
 
 那么就可以了。
+
+## 代码质量检测小结回顾
+
+至此我们的`package.json`文件添加了三条命令
+```json
+{
+  "scripts": {
+    "lint:js": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "lint:style": "stylelint \"**/*.css\"",
+    "lint:prettier": "prettier -c --write \"src/**/*\""
+  }
+}
+```
+
+- `lint:js`，检查js和ts代码质量
+- `lint:style`，检查css代码质量
+- `lint:prettier`，格式化所有代码，包括js、ts、css、json、md等。
+
+**注意`lint:prettier`只管修复代码格式问题。**
+
+如果我们要自动修复代码质量问题，例如你使用了`var`声明变量，需要自动修复成`let`或`const`。
+那么我们可以再添加多两条命令。
+
+```json
+{
+  "scripts": {
+    "lint:js:fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
+    "lint:style:fix": "stylelint \"**/*.css\" --fix",
+  }
+}
+```
+那么执行了上面的命令，就是把代码所有质量和格式的问题都会尽可能帮你修复好。按个人喜好来讲，我是不推荐这样做，就是只使用`lint:prettier`就好，对于代码质量问题，应该自身平时要养成良好的代码习惯，尽量减少这类问题。如果有代码质量问题，自己根据错误报告去逐一手动修复即可。
