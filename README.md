@@ -246,3 +246,47 @@ module.exports = {
   },
 }
 ```
+
+## 安装stylelint
+
+检测css样式代码质量，其实很多项目都是不检测的，如果不做这步可以忽略
+按照[官网docs](https://stylelint.io/user-guide/get-started)，我们开始安装
+```shell
+yarn add --dev stylelint stylelint-config-standard
+```
+
+项目目录中添加`.stylelintrc.js`文件
+```javascript
+module.exports = {
+  extends: ['stylelint-config-standard']
+};
+```
+我们使用了官方推荐的`stylelint-config-standard`配置就好
+
+至此，我们可以在`package.json`添加命令
+```json
+{
+  "script": {
+    "lint:style": "stylelint \"**/*.css\""
+  }
+}
+```
+执行`yarn lint:style`检测我们的css代码质量
+
+**同样的，我们统一用prettier来格式化css代码。**
+
+- `stylelint-config-prettier`，和`eslint-config-prettier`类似，作用是关闭stylelint所有不必要的或可能与prettier冲突的规则。但是在Stylelint v15版本之后，Stylelint默认关闭了所有与prettier相冲突的风格规则，所以不需要安装`stylelint-config-prettier`了。
+- `stylelint-prettier`，和`eslint-plugin-prettier`类似，开启了以 prettier 为准的规则，并将报告错误给 stylelint。
+
+### 安装stylelint-prettier
+
+执行安装`yarn add --dev stylelint-prettier`
+
+修改`.stylelintrc.js`文件
+```javascript
+module.exports = {
+  extends: ['stylelint-config-standard', 'stylelint-prettier/recommended']
+};
+```
+
+那么就可以了。
