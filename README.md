@@ -383,4 +383,24 @@ module.exports = {
 
 这 3 个匹配规则的执行是存在竞争关系，但是不影响，只要 stylelint 或 eslint 谁先检查出错误报告，都会终止匹配执行。我们必须得一一改正才能养成良好习惯，减少类似问题出现。
 
-我们改动代码并`git add .`后，可以执行`yarn lint-staged`。一旦prettier格式化代码成功，并且stylelint 和 eslint无错误输出，那么lint-staged即执行成功，代表我们的代码通过检测。
+我们改动代码并`git add .`后，可以执行`yarn lint-staged`。一旦 prettier 格式化代码成功，并且 stylelint 和 eslint 无错误输出，那么 lint-staged 即执行成功，代表我们的代码通过检测。
+
+## 安装 husky
+
+由于前面都是需要手动操作的，husky 可以让我们在 git 提交的时候自动执行命令。
+
+我们安装执行`yarn add --dev husky`，安装[官网步骤](https://typicode.github.io/husky/#/?id=install)
+
+我们在`package.json`添加命令
+
+```json
+{
+  "scripts": {
+    "prepare": "husky install"
+  }
+}
+```
+
+然后执行这条命令`yarn prepare`，husky 执行初始化，可以发现我们的项目目录多了`.husky`文件夹，代表初始化成功。
+
+接着我们执行`npx husky add .husky/pre-commit "npm run lint-staged"`，大功告成。之后我们 git 提交前会执行`npm run lint-staged`命令，即检查 git 缓存区的代码问题，若存在问题，`lint-staged`会终止并报错，git 提交自然不会成功。
