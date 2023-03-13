@@ -1,3 +1,5 @@
+> React + TS + Eslint + Stylelint + Prettier + lint-staged + Husky 项目模板，项目用了 vite 快速创建，换做其他脚手架也可。
+
 ## 安装 eslint
 
 安装执行`yarn add --dev eslint`
@@ -87,10 +89,10 @@ extends: [ // 共享推荐的配置风格
 安装前我们需要先了解
 
 - `eslint-config-airbnb`是`Airbnb JavaScript`风格的 eslint 共享配置库，检测规则包括`ES6+` 和 `React`，它依赖于`eslint-plugin-import`、`eslint-plugin-react`、`eslint-plugin-react-hooks`、`eslint-plugin-jsx-a11y`包。
-- `eslint-config-airbnb-base`，如果我们不需要`React`，可以安装这个包
+- `eslint-config-airbnb-base`，如果我们不需要`React`，可以安装这个包代替`eslint-config-airbnb`
 - `eslint-config-airbnb-typescript`，支持 typescript，依赖于`eslint-config-airbnb`
 
-现在动手
+由于我们现在的项目是 React+Ts，所以要安装`eslint-config-airbnb`和`eslint-config-airbnb-typescript`这两个包。
 
 我们先执行`npm info "eslint-config-airbnb@latest" peerDependencies`，了解`eslint-config-airbnb`的依赖包版本
 
@@ -106,7 +108,7 @@ npm info "eslint-config-airbnb@latest" peerDependencies
 }
 ```
 
-知道版本后，我们安装对应的版本
+知道依赖包版本后，我们安装对应的版本
 
 ```shell
 yarn add --dev eslint-plugin-import@^2.25.3 eslint-plugin-jsx-a11y@^6.5.1 eslint-plugin-react@^7.28.0 eslint-plugin-react-hooks@^4.3.0
@@ -198,9 +200,11 @@ node_modules
 
 ### eslint-config-prettier 和 eslint-plugin-prettier
 
-我们了解 eslint 和 prettier 的分工，eslint 配置代码风格、质量的校验，prettier 用于代码格式化，两者具体区别可以[参考文章](https://zhuanlan.zhihu.com/p/80574300) 避免 eslint 和 prettier 冲突，我们需要再安装两个包`eslint-config-prettier`、`eslint-plugin-prettier`
+我们先了解 eslint 和 prettier 的分工，prettier 用于代码格式化，eslint 配置代码风格、质量的校验（eslint 也能负责代码格式，只是 prettier 更专业），两者具体区别可以[参考文章](https://zhuanlan.zhihu.com/p/80574300) 。
 
-`eslint-config-prettier`的作用是关闭 eslint 中所有不必要的或可能与 prettier 冲突的规则，让 eslint 检测代码时不会对这些规则报错或告警。我们在[eslint-config-prettier 代码](https://github.com/prettier/eslint-config-prettier/blob/main/index.js)可以看到，例如缩进、引号等格式规则。比如 eslint 规定是双引号，而我们用 prettier 格式化代码时是用单引号，现在关掉 eslint 与 prettier 代码冲突的规则，我们可以完全自定义 prettier 来格式化我们的代码，而不受 eslint 影响。
+避免 eslint 和 prettier 冲突，我们需要再安装两个包`eslint-config-prettier`、`eslint-plugin-prettier`。
+
+`eslint-config-prettier`的作用是关闭 eslint 中所有不必要的或可能与 prettier 冲突的规则，让 eslint 检测代码时不会对这些规则报错或告警。比如 eslint 规定是双引号，而我们用 prettier 格式化代码时是用单引号，会存在冲突。我们在[eslint-config-prettier 代码](https://github.com/prettier/eslint-config-prettier/blob/main/index.js)可以看到，例如缩进、引号等格式规则都被关闭了。关闭后，我们可以完全自定义 prettier 来格式化我们的代码，而不受 eslint 影响。
 
 `eslint-plugin-prettier` 是一个 ESLint 插件。上面我们说关闭了一些 eslint 的代码格式规则。假设我们约定 prettier 规则使用双引号，然而敲代码写成单引号，我还是希望能够按 prettier 的规则给我一些代码不规范的报错或警告提示。那么`eslint-config-prettier`是关闭了 eslint 中与 prettier 冲突的规则，`eslint-plugin-prettier`就是开启了以 prettier 为准的规则，并将报告错误给 eslint。
 
@@ -231,7 +235,7 @@ node_modules
 }
 ```
 
-至此，我们项目的`eslint`和`prettier`就配置完成了我们再来看看完整的`.eslintrc.js`文件
+至此，我们项目`eslint`和`prettier`的配置就完成了，我们再来看看完整的`.eslintrc.js`文件
 
 ```javascript
 module.exports = {
@@ -268,7 +272,9 @@ module.exports = {
 
 ## 安装 stylelint
 
-检测 css 样式代码质量，其实很多项目都是不检测的，如果不做这步可以忽略按照[官网 docs](https://stylelint.io/user-guide/get-started)，我们开始安装
+检测 css 样式代码质量，其实很多项目都是不检测的，如果不做这步可以忽略。
+
+按照[官网 docs](https://stylelint.io/user-guide/get-started)，我们开始安装
 
 ```shell
 yarn add --dev stylelint stylelint-config-standard
@@ -296,10 +302,12 @@ module.exports = {
 
 执行`yarn lint:style`检测我们的 css 代码质量
 
-**同样的，我们统一用 prettier 来格式化 css 代码。**
+**同样的，我们统一用 prettier 来格式化 css 代码。** 需要安装 stylelint 插件来避免与 prettier 冲突。
 
 - `stylelint-config-prettier`，和`eslint-config-prettier`类似，作用是关闭 stylelint 所有不必要的或可能与 prettier 冲突的规则。但是在 Stylelint v15 版本之后，Stylelint 默认关闭了所有与 prettier 相冲突的风格规则，所以不需要安装`stylelint-config-prettier`了。
 - `stylelint-prettier`，和`eslint-plugin-prettier`类似，开启了以 prettier 为准的规则，并将报告错误给 stylelint。
+
+上面了解后，我们只需要安装`stylelint-prettier`。
 
 ### 安装 stylelint-prettier
 
@@ -313,7 +321,7 @@ module.exports = {
 };
 ```
 
-那么就可以了。
+搞定。
 
 ## 代码质量检测小结回顾
 
@@ -335,7 +343,7 @@ module.exports = {
 
 **注意`lint:prettier`只管修复代码格式问题。**
 
-如果我们要自动修复代码质量问题，例如你使用了`var`声明变量，需要自动修复成`let`或`const`。那么我们可以再添加多两条命令。
+如果我们要自动修复代码质量问题，例如 js 代码中你使用了`var`声明变量，需要自动修复成`let`或`const`。那么我们可以再添加多两条命令。
 
 ```json
 {
