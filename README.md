@@ -235,6 +235,21 @@ node_modules
 }
 ```
 
+我们也可以自行改变下一些规则，比如
+
+```javascript
+{
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleAttributePerLine: false, // 不强制要求一个属性占一行
+      }
+    ]
+  }
+}
+```
+
 至此，我们项目`eslint`和`prettier`的配置就完成了，我们再来看看完整的`.eslintrc.js`文件
 
 ```javascript
@@ -266,6 +281,12 @@ module.exports = {
   },
   rules: {
     'react/react-in-jsx-scope': 'off', // React17后不需要在jsx中主动引入react
+    'prettier/prettier': [
+      'error',
+      {
+        singleAttributePerLine: false, // 不强制要求一个属性占一行
+      },
+    ],
   },
 };
 ```
