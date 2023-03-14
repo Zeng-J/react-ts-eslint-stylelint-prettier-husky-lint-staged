@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-ts-eslint-prettier-husky",
+  "name": "react-ts-eslint-stylelint-prettier-husky-lint-staged",
   "private": true,
   "version": "0.0.0",
   "scripts": {
